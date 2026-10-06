@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Cotizar entrega</title>
+</head>
+<body>
+
+    <h1>Cotizar entrega</h1>
+
+    <form id="formulario">
+        <label>
+            Distancia (km):
+            <input type="number" id="km" step="any">
+        </label>
+
+        <br><br>
+
+        <label>
+            Peso (kg):
+            <input type="number" id="kg" step="any">
+        </label>
+
+        <br><br>
+
+        <button type="submit">Cotizar</button>
+    </form>
+
+    <div id="resultado"></div>
+
+    <script>
+        const formulario = document.getElementById("formulario");
+        const resultado = document.getElementById("resultado");
+
+        formulario.addEventListener("submit", async function(event) {
+            event.preventDefault();
+
+            const km = document.getElementById("km").value;
+            const kg = document.getElementById("kg").value;
+
+            const respuesta = await fetch(
+                `/entregas/cotizar/?km=${km}&kg=${kg}`
+            );
+
+            const datos = await respuesta.json();
+
+            if (!respuesta.ok) {
+                resultado.innerHTML = `<p>Error: ${datos.error}</p>`;
+                return;
+            }
+
+            resultado.innerHTML = `
+                <h2>${datos.medio}</h2>
+                <p>${datos.motivo}</p>
+            `;
+        });
+    </script>
+
+</body>
+</html>

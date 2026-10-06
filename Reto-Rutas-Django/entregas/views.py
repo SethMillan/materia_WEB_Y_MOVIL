@@ -60,3 +60,6 @@ def cotizar(request):
         "medio": medio,
         "motivo": motivo
     })
+    
+def pagina_cotizar(request):
+    return render(request, "entregas/cotizar.html")
